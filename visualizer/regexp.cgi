@@ -5,7 +5,8 @@ use feature 'state';
 use CGI::Carp qw(fatalsToBrowser);
 
 use lib q[/home/wakaba/work/manakai2/lib];
-use Message::CGI::Util qw/percent_decode/;
+use Message::CGI::Util qw/percent_decode htescape/;
+use Message::CGI::HTTP;
 
 use Regexp::Parser;
 use Graph::Easy;
@@ -25,7 +26,9 @@ my $assertion_map = {
     '<unlessm' => '(?<!)',
 };
 
-my $regexp = percent_decode $ENV{QUERY_STRING};
+my $cgi = Message::CGI::HTTP->new;
+
+my $regexp = percent_decode $cgi->get_parameter ('s') // '';
 $regexp = '(?:)' unless length $regexp;
 
 my $parser = Regexp::Parser->new;
@@ -90,25 +93,44 @@ elsif ($ret == \$rhs) {
 package main;
 
 $parser->parse ($regexp);
+my $eregexp = htescape $regexp;
+
+if ($parser->errnum) {
+  binmode STDOUT, ':encoding(utf-8)';
+  print "Content-Type: text/html; charset=utf-8\n\n";
+  print q[<!DOCTYPE HTML><html lang=en>
+<title>Regular expression visualizer: $eregexp</title>
+<link rel="stylesheet" href="/www/style/html/xhtml"/>
+</head>
+<body>
+<h1>Regular expression visualizer</h1>
+
+<p>Input: <code>], $eregexp, q[</code></p>
+
+<p>Error: ], htescape ($parser->errmsg);
+  exit;
+}
 
 binmode STDOUT, ':encoding(utf-8)';
 print "Content-Type: application/xhtml+xml; charset=utf-8\n\n";
 
-print $parser->errnum, $parser->errmsg;
-
 add_regexp ($parser->root);
 
-print q[<html xmlns="http://www.w3.org/1999/xhtml">
-<head><title></title>
+print q[<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Regular expression visualizer: $eregexp</title>
+<link rel="stylesheet" href="/www/style/html/xhtml"/>
 </head>
-<body>];
+<body>
+<h1>Regular expression visualizer</h1>
+
+<p>Input: <code>], $eregexp, q[</code></p>];
 
 my @regexp;
 while (@regexp) {
   my $nodes = shift @regexp;
 
   my $index = get_graph_index ($nodes);
-  print "<section><h1>Regexp #$index</h1>\n\n";
+  print "<section><h2>Regexp #$index</h2>\n\n";
 
   my $g = generate_graph ($nodes);
   print $g->as_svg;
