@@ -1,3 +1,12 @@
+2008-12-08  Wakaba  <wakaba@suika.fam.cx>
+
+	* input.html: Added |select| for language selection.
+
+	* regexp.cgi: Don't percent-decode query parameter values decoded
+	by Message::CGI::HTTP twice.  Added JavaScript regular expression
+	support.  Regular expression input was not expanded in |title|
+	elements.
+
 2008-12-07  Wakaba  <wakaba@suika.fam.cx>
 
 	* regexp.cgi: Parser patch and graph constructor codes moved into

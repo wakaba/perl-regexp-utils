@@ -1,3 +1,16 @@
+2008-12-08  Wakaba  <wakaba@suika.fam.cx>
+
+	* Simple.pm (next_graph): Plot "FAIL" node if necessary.  Don't
+	plot "SUCCESS" node if not necessary.
+	(add_to_graph): Support for empty []/[^] character classes allowed
+	in JavaScript regular expressions.
+
+2008-12-07  Wakaba  <wakaba@suika.fam.cx>
+
+	* Simple.pm (push_regexp_node): Invoke |get_graph_index| to return
+	the index of the pushed regexp.  This invocation is necessary such
+	that the order the regexps are pushed is reflected to the index.
+
 2008-12-07  Wakaba  <wakaba@suika.fam.cx>
 
 	* Simple.pm: New module.

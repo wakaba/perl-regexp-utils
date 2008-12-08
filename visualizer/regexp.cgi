@@ -1,34 +1,39 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use feature 'state';
 use CGI::Carp qw(fatalsToBrowser);
 
 use FindBin;
 use lib qq[$FindBin::Bin/../lib];
 use lib q[/home/wakaba/work/manakai2/lib];
-use Message::CGI::Util qw/percent_decode htescape/;
+use Message::CGI::Util qw/htescape/;
+use Encode;
+
 use Message::CGI::HTTP;
-
-use Regexp::Parser::Perl58;
-
 my $cgi = Message::CGI::HTTP->new;
 
-my $regexp = percent_decode $cgi->get_parameter ('s') // '';
+my $regexp = decode 'utf-8', $cgi->get_parameter ('s') // '';
 $regexp = '(?:)' unless length $regexp;
+my $eregexp = htescape $regexp;
 
-my $parser = Regexp::Parser::Perl58->new;
+my $lang = $cgi->get_parameter ('l') // 'perl58';
+my $class = $lang eq 'js'
+    ? 'Regexp::Parser::JavaScript'
+    : 'Regexp::Parser::Perl58';
+
+use UNIVERSAL::require;
+$class->use or die $@;
+my $parser = $class->new;
 
 eval {
   $parser->parse ($regexp);
 };
-my $eregexp = htescape $regexp;
 
 if ($parser->errnum) {
   binmode STDOUT, ':encoding(utf-8)';
   print "Content-Type: text/html; charset=utf-8\n\n";
   print q[<!DOCTYPE HTML><html lang=en>
-<title>Regular expression visualizer: $eregexp</title>
+<title>Regular expression visualizer: ], $eregexp, q[</title>
 <link rel="stylesheet" href="/www/style/html/xhtml"/>
 </head>
 <body>
@@ -48,7 +53,7 @@ binmode STDOUT, ':encoding(utf-8)';
 print "Content-Type: application/xhtml+xml; charset=utf-8\n\n";
 
 print q[<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head><title>Regular expression visualizer: $eregexp</title>
+<head><title>Regular expression visualizer: ], $eregexp, q[</title>
 <link rel="stylesheet" href="/www/style/html/xhtml"/>
 </head>
 <body>

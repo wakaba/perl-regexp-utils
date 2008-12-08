@@ -1,4 +1,33 @@
-<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2008-12-07T11:46:03Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1228650365"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228650365</id><title>2008-12-07 Wakaba</title><updated>2008-12-07T11:46:03Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/visualizer/ChangeLog	7 Dec 2008 11:45:48 -0000
+<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2008-12-08T12:21:22Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1228738886"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228738886</id><title>2008-12-08 Wakaba</title><updated>2008-12-08T12:21:22Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/visualizer/ChangeLog	8 Dec 2008 12:21:06 -0000
+2008-12-08  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* input.html: Added |select| for language selection.
+
+	* regexp.cgi: Don't percent-decode query parameter values decoded
+	by Message::CGI::HTTP twice.  Added JavaScript regular expression
+	support.  Regular expression input was not expanded in |title|
+	elements.
+
+++ swe/lib/Regexp/Parser/ChangeLog	8 Dec 2008 12:17:06 -0000
+2008-12-08  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* JavaScript.pm: New module.
+
+++ swe/lib/Regexp/Visualize/ChangeLog	8 Dec 2008 12:19:40 -0000
+2008-12-08  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* Simple.pm (next_graph): Plot &quot;FAIL&quot; node if necessary.  Don't
+	plot &quot;SUCCESS&quot; node if not necessary.
+	(add_to_graph): Support for empty []/[^] character classes allowed
+	in JavaScript regular expressions.
+
+2008-12-07  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* Simple.pm (push_regexp_node): Invoke |get_graph_index| to return
+	the index of the pushed regexp.  This invocation is necessary such
+	that the order the regexps are pushed is reflected to the index.
+
+</content></entry><entry xml:id="entry-1228650365"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228650365</id><title>2008-12-07 Wakaba</title><updated>2008-12-07T11:46:03Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/visualizer/ChangeLog	7 Dec 2008 11:45:48 -0000
 	* regexp.cgi: Parser patch and graph constructor codes moved into
 	their own modules.
 

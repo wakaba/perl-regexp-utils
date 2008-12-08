@@ -42,6 +42,7 @@ sub push_regexp_node ($$) {
   my $self = shift;
   my $nodes = shift; # Regexp::Parser's node or array ref of nodes
   push @{$self->{regexp}}, $nodes;
+  return $self->get_graph_index ($nodes);
 } # push_regexp_node
 
 sub shift_regexp_node ($) {
@@ -70,17 +71,25 @@ sub next_graph ($) {
 
   $g->set_attributes ('node.start' => {fill => 'blue', color => 'white'});
   $g->set_attributes ('node.success' => {fill => 'green', color => 'white'});
+  $g->set_attributes ('node.fail' => {fill => 'red', color => 'white'});
+  $g->set_attributes ('edge.fail' => {color => 'gray'});
   
   my $start_n = $g->add_node ('START');
   $start_n->set_attribute (class => 'start');
   my $success_n = $g->add_node ('SUCCESS');
   $success_n->set_attribute (class => 'success');
+  my $fail_n = $g->add_node ('FAIL');
+  $fail_n->set_attribute (class => 'fail');
 
   my ($first_ns, $last_ns, $is_optional)
       = $self->_add_to_graph ($root_nodes => $g);
   $g->add_edge ($start_n => $_) for @$first_ns;
   $g->add_edge ($_ => $success_n) for @$last_ns;
   $g->add_edge ($start_n => $success_n) if $is_optional;
+
+  $g->del_node ($success_n) unless $success_n->incoming;
+  $g->del_node ($fail_n) unless $fail_n->incoming;
+  $_->set_attribute ('class' => 'fail') for $fail_n->outgoing;
   
   return ($g, $self->get_graph_index ($root_nodes));
 } # next_graph
@@ -164,26 +173,40 @@ sub _add_to_graph ($$$) {
     }
     return (\@first_n, \@last_n, $is_optional);
   } elsif ($type eq 'anyof') {
+    my $data = $node->data;
     if ($node->neg) {
-      my $nodes = Regexp::Parser::branch->new ($node->{rx});
-      $nodes->{data} = $node->data;
-      
-      $self->push_regexp_node ($nodes);
-      
-      my $n = $g->add_node (refaddr $nodes);
-      my $label = 'NOT #' . $self->get_graph_index ($nodes);
-      $n->set_attribute (label => $label);
-      
-      return ([$n], [$n], 0);      
-    } else {
-      my @first_n;
-      my @last_n;
-      for (@{$node->data}) {
-        my ($f_ns, $l_ns) = $self->_add_to_graph ($_ => $g);
-        push @first_n, @$f_ns;
-        push @last_n, @$l_ns;
+      if (@$data) {
+        my $nodes = Regexp::Parser::branch->new ($node->{rx});
+        $nodes->{data} = $node->data;
+        
+        $self->push_regexp_node ($nodes);
+        
+        my $n = $g->add_node (refaddr $nodes);
+        my $label = 'NOT #' . $self->get_graph_index ($nodes);
+        $n->set_attribute (label => $label);
+        
+        return ([$n], [$n], 0);      
+      } else {
+        my $n = $g->add_node (refaddr $node);
+        my $label = 'Any character';
+        $n->set_attribute (label => $label);
+
+        return ([$n], [$n], 0);
       }
-      return (\@first_n, \@last_n, 0);
+    } else {
+      if (@$data) {
+        my @first_n;
+        my @last_n;
+        for (@{$node->data}) {
+          my ($f_ns, $l_ns) = $self->_add_to_graph ($_ => $g);
+          push @first_n, @$f_ns;
+          push @last_n, @$l_ns;
+        }
+        return (\@first_n, \@last_n, 0);
+      } else {
+        my $fail_n = $g->node ('FAIL');
+        return ([$fail_n], [$fail_n], 0);
+      }
     }
   } elsif ($type eq '') {
     my $prev_ns;
