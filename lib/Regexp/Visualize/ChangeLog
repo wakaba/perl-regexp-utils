@@ -1,5 +1,9 @@
 2008-12-08  Wakaba  <wakaba@suika.fam.cx>
 
+	* Simple.pm: Removed "Perl" from descriptions.
+
+2008-12-08  Wakaba  <wakaba@suika.fam.cx>
+
 	* Simple.pm (next_graph): Plot "FAIL" node if necessary.  Don't
 	plot "SUCCESS" node if not necessary.
 	(add_to_graph): Support for empty []/[^] character classes allowed

@@ -9,7 +9,7 @@ use Scalar::Util qw/refaddr/;
 my $default_map = {};
 for (qw/. \C \w \W \s \S \d \D \X \1 \2 \3 \4 \5 \6 \7 \8 \9
         \A ^ \B \b \G \Z \z $/) {
-  $default_map->{$_} = qq[Perl /$_/];
+  $default_map->{$_} = $_;
 }
 
 my $assertion_map = {
@@ -311,11 +311,11 @@ sub _add_to_graph ($$$) {
         $label = 'property ' . $node->type;
         $label = 'NOT ' . $label if $node->neg;
       } elsif ($data_family eq 'space') {
-        $label = $data->neg ? 'Perl /\S/' : 'Perl /\s/';
+        $label = $data->neg ? '\S' : '\s';
       } elsif ($data_family eq 'alnum') {
-        $label = $data->neg ? 'Perl /\W/' : 'Perl /\w/';
+        $label = $data->neg ? '\W' : '\w';
       } elsif ($data_family eq 'digit') {
-        $label = $data->neg ? 'Perl /\D/' : 'Perl /\d/';
+        $label = $data->neg ? '\D' : '\d';
       } else {
         $label = $data->visual;
       }
@@ -366,7 +366,7 @@ sub _add_to_graph ($$$) {
     
     my $label = $node->visual;
     $label = $default_map->{$label} // _escape_value $label;
-    $label .= ' (' . $type . ')';
+    $label .= ' (' . $type . ')' unless $default_map->{$label};
     $n->set_attribute (label => $label);
     
     return ([$n] => [$n], 0);
