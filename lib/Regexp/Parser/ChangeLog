@@ -1,5 +1,11 @@
 2008-12-09  Wakaba  <wakaba@suika.fam.cx>
 
+	* JavaScript.pm: Report ECMA 262 conformance errors as warnings.
+
+	* Perl58.pm: Made error levels customizable.
+
+2008-12-09  Wakaba  <wakaba@suika.fam.cx>
+
 	* Perl58.pm: Added support for custom error handling hook.
 	(nextchar): Don't skip (?#) if it is not supported in the regexp
 	dialect.

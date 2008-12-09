@@ -6,9 +6,23 @@ use Regexp::Parser::Perl58;
 use Regexp::Parser qw(:original :RPe);
 push our @ISA, 'Regexp::Parser::Perl58';
 
+use constant RPJSe_OCTESC => 80130, 'Octal escape is obsolete';
+
+my $IdentifierStart = qr/[
+                          ## UnicodeLetter
+                          \p{Lu}\p{Ll}\p{Lt}\p{Lm}\p{Lo}\p{Nl}
+
+                          $ _ 
+                         ]/x;
+
 sub init ($) {
   my $self = shift;
   $self->SUPER::init;
+
+  $self->{enum_to_level}->{[RPe_BADESC]->[0]} = 'm';
+  $self->{enum_to_level}->{[RPe_BGROUP]->[0]} = 'm';
+  $self->{enum_to_level}->{[RPJSe_OCTESC]->[0]} = 'm';
+  $self->{enum_to_level}->{[RPe_FRANGE]->[0]} = 'm';
 
   $self->del_handler (qw/
                          \a \e \A \C \G \N \P \p \X \Z \z
@@ -43,6 +57,8 @@ sub init ($) {
 
       return $S->$c($cc) if $S->can($c);
 
+      my $family = $cc ? 'anyof_char' : 'exact';
+
       if ($n =~ /\d/) {
         ## See <http://suika.fam.cx/%7Ewakaba/wiki/sw/n/%E5%85%AB%E9%80%B2%E3%82%A8%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%97>.
 
@@ -60,18 +76,24 @@ sub init ($) {
           }
         }
         if ($n =~ /^[89]/) {
-          ## TODO: warning
-          return $S->object(exact => chr 0x30 + $n,
+          $S->warn(RPe_BGROUP);
+          return $S->object($family => chr 0x30 + $n,
                             sprintf("\\x%02x", 0x30 + $n));
         }
 
-        ## TODO: warning
-        return $S->object(exact => chr oct $n, sprintf("\\%03s", $n));
+        if ($n eq '0') {
+          #
+        } elsif ($n =~ /^0/ or $cc) {
+          $S->warn(RPJSe_OCTESC);
+        } elsif ($n > $S->{maxpar}) {
+          $S->warn(RPe_BGROUP);
+        }
+        return $S->object($family => chr oct $n, sprintf("\\%03s", $n));
       }
 
-      $S->warn(RPe_BADESC, $c = $n, "") if $n =~ /[a-zA-Z]/;
+      $S->warn(RPe_BADESC, $c = $n, "") if $n =~ /$IdentifierStart/o;
 
-      return $S->object(exact => $n, $c);
+      return $S->object($family => $n, $c);
     }
 
     $S->error(RPe_ESLASH);
@@ -80,11 +102,17 @@ sub init ($) {
   # control character
   $self->add_handler('\c' => sub {
     my ($S, $cc) = @_;
-    ${&Rx} =~ m{ \G (.?) }xgc;
-## TODO: error unless [A-Za-z]
-    my $c = $1;
-    return $S->force_object(anyof_char => chr(64 ^ ord $c), "\\c$c") if $cc;
-    return $S->object(exact => chr(64 ^ ord $c), "\\c$c");
+    ## See <http://suika.fam.cx/%7Ewakaba/wiki/sw/n/%5Cc>.
+    if (${&Rx} =~ m{ \G ([A-Za-z]) }xgc) {
+      my $c = $1;
+      $c =~ tr/a-z/A-Z/;
+      return $S->force_object(anyof_char => chr(64 ^ ord $c), "\\c$c") if $cc;
+      return $S->object(exact => chr(64 ^ ord $c), "\\c$c");
+    } else {
+      my $c = 'c';
+      $S->warn(RPe_BADESC, $c, "");
+      return $S->object(($cc ? 'anyof_char' : 'exact') => $c, $c);
+    }
   });
 
   # hex character
@@ -96,6 +124,7 @@ sub init ($) {
       $num = hex $1;
     } else {
       $num = ord 'x';
+      $S->warn(RPe_BADESC, 'x', "");
     }
 
     my $rep = sprintf("\\x%02X", $num);
@@ -112,6 +141,7 @@ sub init ($) {
       $num = hex $1;
     } else {
       $num = ord 'u';
+      $S->warn(RPe_BADESC, 'u', "");
     }
     
     my $rep = sprintf("\\u%04X", $num);

@@ -106,7 +106,9 @@ sub regex {
     captures => [],
     flags => [0],
     next => ['atom'],
+
     onerror => $self->{onerror},
+    enum_to_level => $self->{enum_to_level},
   );
 
   # do the initial scan (populates maxpar)
@@ -137,26 +139,30 @@ sub nextchar {
   }
 }
 
+## Fatal errors
 sub error {
   my ($self, $enum, $err, @args) = @_;
   if ($self->{onerror}) {
     my $pos_diff = $error_pos_diff->{$enum} // 1;
+    my $level = $self->{enum_to_level}->{$enum} || 'm';
     $self->{onerror}->(code => $enum, type => $err,
                        valueref => &Rx,
                        pos_start => &RxPOS - $pos_diff, pos_end => &RxPOS,
-                       level => 'm', args => \@args);
+                       level => $level, args => \@args);
   }
   shift->SUPER::error (@_);
 } # error
 
+## Non-fatal errors/warnings
 sub warn {
   my ($self, $enum, $err, @args) = @_;
   if ($self->{onerror} and &SIZE_ONLY) {
     my $pos_diff = $error_pos_diff->{$enum} // 1;
+    my $level = $self->{enum_to_level}->{$enum} || 'w';
     $self->{onerror}->(code => $enum, type => $err,
                        valueref => &Rx,
                        pos_start => &RxPOS - $pos_diff, pos_end => &RxPOS,
-                       level => 'w', args => \@args);
+                       level => $level, args => \@args);
   }
   shift->SUPER::warn (@_);
 } # warn
