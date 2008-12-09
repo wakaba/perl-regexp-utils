@@ -208,7 +208,7 @@ sub _add_to_graph ($$$) {
         return ([$fail_n], [$fail_n], 0);
       }
     }
-  } elsif ($type eq '') {
+  } elsif ($family eq '' and $type eq '') {
     my $prev_ns;
     my $first_ns;
     my $is_optional = 1;
@@ -358,10 +358,15 @@ sub _add_to_graph ($$$) {
     $n->set_attribute (label => $label);
 
     return ([$n] => [$n], 0);
-  } else {
-    # anyof_char
-    # anyof_range
+  } elsif ($family eq 'prop') {
+    my $n = $g->add_node (refaddr $node);
 
+    my $label = 'property ' . $node->type;
+    $label = 'NOT ' . $label if $node->neg;
+    $n->set_attribute (label => $label);
+
+    return ([$n], [$n], 0);
+  } else {
     my $n = $g->add_node (refaddr $node);
     
     my $label = $node->visual;

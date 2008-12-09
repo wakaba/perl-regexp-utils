@@ -18,6 +18,18 @@ BEGIN {
 use Regexp::Parser 0.20 qw(:original :RPe);
 push our @ISA, 'Regexp::Parser';
 
+my $error_pos_diff = {
+  [RPe_NOTERM]->[0] => 0,
+  [RPe_LOGDEP]->[0] => 4, # (?p{
+  [RPe_NOTBAL]->[0] => 3, # (?p{, (?p{, (??{
+  [RPe_SWNREC]->[0] => 0, # (?(12_aa)
+  [RPe_NOTREC]->[0] => 3, # (?_
+  [RPe_RBRACE]->[0] => 0, # \p{_
+  [RPe_BRACES]->[0] => 2, # \N
+  [RPe_BGROUP]->[0] => 2, # \[0-9]{1}
+  [RPe_BADESC]->[0] => 2, # \_
+};
+
 sub init ($) {
   my $self = shift;
 
@@ -81,5 +93,84 @@ sub init ($) {
     return $ret;
   });
 } # init
+
+sub regex {
+  my ($self, $rx) = @_;
+  %$self = (
+    regex => \"$rx",
+    len => length $rx,
+    tree => undef,
+    stack => [],
+    maxpar => 0,
+    nparen => 0,
+    captures => [],
+    flags => [0],
+    next => ['atom'],
+    onerror => $self->{onerror},
+  );
+
+  # do the initial scan (populates maxpar)
+  # because tree is undef, nothing gets built
+  &RxPOS = 0;
+  eval { $self->parse };
+  $self->{errmsg} = $@, return if $@;
+
+  # reset things, define tree as []
+  &RxPOS = 0;
+  $self->{tree} = [];
+  $self->{flags} = [0];
+  $self->{next} = ['atom'];
+
+  return 1;
+}
+
+sub nextchar {
+  my ($self) = @_;
+
+  {
+    if ($self->can('(?#') and
+        ${&Rx} =~ m{ \G \(\?\# [^)]* }xgc) {
+      ${&Rx} =~ m{ \G \) }xgc and redo;
+      $self->error(RPe_NOTERM);
+    }
+    &Rf & $self->FLAG_x and ${&Rx} =~ m{ \G (?: \s+ | \# .* )+ }xgc and redo;
+  }
+}
+
+sub error {
+  my ($self, $enum, $err, @args) = @_;
+  if ($self->{onerror}) {
+    my $pos_diff = $error_pos_diff->{$enum} // 1;
+    $self->{onerror}->(code => $enum, type => $err,
+                       valueref => &Rx,
+                       pos_start => &RxPOS - $pos_diff, pos_end => &RxPOS,
+                       level => 'm', args => \@args);
+  }
+  shift->SUPER::error (@_);
+} # error
+
+sub warn {
+  my ($self, $enum, $err, @args) = @_;
+  if ($self->{onerror} and &SIZE_ONLY) {
+    my $pos_diff = $error_pos_diff->{$enum} // 1;
+    $self->{onerror}->(code => $enum, type => $err,
+                       valueref => &Rx,
+                       pos_start => &RxPOS - $pos_diff, pos_end => &RxPOS,
+                       level => 'w', args => \@args);
+  }
+  shift->SUPER::warn (@_);
+} # warn
+
+sub onerror {
+  my $self = $_[0];
+  if (@_ > 1) {
+    if ($_[1]) {
+      $self->{onerror} = $_[1];
+    } else {
+      delete $self->{onerror};
+    }
+  }
+  return $self->{onerror};
+} # onerror
 
 1;

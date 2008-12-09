@@ -1,4 +1,23 @@
-<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2008-12-08T12:25:05Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1228739110"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228739110</id><title>2008-12-08 Wakaba</title><updated>2008-12-08T12:25:05Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/lib/Regexp/Visualize/ChangeLog	8 Dec 2008 12:25:02 -0000
+<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2008-12-09T02:41:38Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1228790499"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228790499</id><title>2008-12-09 Wakaba</title><updated>2008-12-09T02:41:38Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/visualizer/ChangeLog	9 Dec 2008 02:41:30 -0000
+2008-12-09  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* regexp.cgi: Output errors and warnings as HTML, not plain text
+	messages.
+
+++ swe/lib/Regexp/Parser/ChangeLog	9 Dec 2008 02:40:27 -0000
+2008-12-09  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* Perl58.pm: Added support for custom error handling hook.
+	(nextchar): Don't skip (?#) if it is not supported in the regexp
+	dialect.
+
+++ swe/lib/Regexp/Visualize/ChangeLog	9 Dec 2008 02:41:01 -0000
+2008-12-09  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* Simple.pm (_add_to_graph): Added support for \p{} outside
+	character classes.
+
+</content></entry><entry xml:id="entry-1228739110"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228739110</id><title>2008-12-08 Wakaba</title><updated>2008-12-08T12:25:05Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/lib/Regexp/Visualize/ChangeLog	8 Dec 2008 12:25:02 -0000
 	* Simple.pm: Removed &quot;Perl&quot; from descriptions.
 
 2008-12-08  Wakaba  &lt;wakaba@suika.fam.cx&gt;

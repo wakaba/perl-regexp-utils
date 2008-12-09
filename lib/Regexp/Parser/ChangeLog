@@ -1,3 +1,9 @@
+2008-12-09  Wakaba  <wakaba@suika.fam.cx>
+
+	* Perl58.pm: Added support for custom error handling hook.
+	(nextchar): Don't skip (?#) if it is not supported in the regexp
+	dialect.
+
 2008-12-08  Wakaba  <wakaba@suika.fam.cx>
 
 	* JavaScript.pm: New module.

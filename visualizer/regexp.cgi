@@ -25,6 +25,30 @@ use UNIVERSAL::require;
 $class->use or die $@;
 my $parser = $class->new;
 
+my @error;
+$parser->onerror (sub {
+  my %args = @_;
+  my $r = '<li>';
+  if ($args{level} eq 'w') {
+    $r .= '<strong>Warning</strong>: ';
+  } else {
+    $r .= '<strong>Error</strong>: ';
+  }
+
+  $r .= htescape sprintf $args{type}, @{$args{args}};
+
+  $r .= ': <code>';
+  $r .= htescape substr ${$args{valueref}}, 0, $args{pos_start};
+  $r .= '<mark>';
+  $r .= htescape substr ${$args{valueref}},
+      $args{pos_start}, $args{pos_end} - $args{pos_start};
+  $r .= '</mark>';
+  $r .= htescape substr ${$args{valueref}}, $args{pos_end};
+  $r .= '</code></li>';
+
+  push @error, $r;
+});
+
 eval {
   $parser->parse ($regexp);
 };
@@ -41,7 +65,11 @@ if ($parser->errnum) {
 
 <p>Input: <code>], $eregexp, q[</code></p>
 
-<p>Error: ], htescape ($parser->errmsg);
+<p>Error:
+<ul>];
+  print join '', @error;
+  print q[</ul>];
+
   exit;
 }
 
@@ -60,6 +88,12 @@ print q[<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <h1>Regular expression visualizer</h1>
 
 <p>Input: <code>], $eregexp, q[</code></p>];
+
+if (@error) {
+  print q[<ul>];
+  print join '', @error;
+  print q[</ul>];
+}
 
 while ($v->has_regexp_node) {
   my ($g, $index) = $v->next_graph;
