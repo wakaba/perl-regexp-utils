@@ -1,4 +1,15 @@
-<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2008-12-09T03:22:46Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1228792967"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228792967</id><title>2008-12-09 Wakaba</title><updated>2008-12-09T03:22:46Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/lib/Regexp/Parser/ChangeLog	9 Dec 2008 03:22:39 -0000
+<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2008-12-11T03:15:20Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1228965327"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228965327</id><title>2008-12-11 Wakaba</title><updated>2008-12-11T03:15:20Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/doc/ChangeLog	11 Dec 2008 03:14:00 -0000
+2008-12-11  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* ,htaccess: New file.
+
+	* ChangeLog: New file.
+++ swe/lib/Regexp/Parser/ChangeLog	11 Dec 2008 03:15:16 -0000
+2008-12-11  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* Perl58.pm: Added $error_pos_diff data for missing &quot;)&quot;/&quot;]&quot; errors.
+
+</content></entry><entry xml:id="entry-1228792967"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228792967</id><title>2008-12-09 Wakaba</title><updated>2008-12-09T03:22:46Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/lib/Regexp/Parser/ChangeLog	9 Dec 2008 03:22:39 -0000
 	* JavaScript.pm: Report ECMA 262 conformance errors as warnings.
 
 	* Perl58.pm: Made error levels customizable.

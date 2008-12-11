@@ -1,3 +1,7 @@
+2008-12-11  Wakaba  <wakaba@suika.fam.cx>
+
+	* Perl58.pm: Added $error_pos_diff data for missing ")"/"]" errors.
+
 2008-12-09  Wakaba  <wakaba@suika.fam.cx>
 
 	* JavaScript.pm: Report ECMA 262 conformance errors as warnings.
