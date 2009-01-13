@@ -1,3 +1,11 @@
+2009-01-13  Wakaba  <wakaba@suika.fam.cx>
+
+	* Simple.pod: New file.
+
+	* Makefile: New file.
+
+	* Simple.pm: Added license section.
+
 2008-12-09  Wakaba  <wakaba@suika.fam.cx>
 
 	* Simple.pm (_add_to_graph): Added support for \p{} outside

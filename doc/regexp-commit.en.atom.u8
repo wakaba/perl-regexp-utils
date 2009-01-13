@@ -1,4 +1,13 @@
-<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2008-12-11T03:15:20Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1228965327"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228965327</id><title>2008-12-11 Wakaba</title><updated>2008-12-11T03:15:20Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/doc/ChangeLog	11 Dec 2008 03:14:00 -0000
+<feed xml:lang="en" xmlns="http://www.w3.org/2005/Atom"><id>http://suika.fam.cx/regexp/doc/regexp-commit</id><title>&lt;http://suika.fam.cx/regexp/&gt; ChangeLog diffs</title><updated>2009-01-13T14:15:04Z</updated><link href="http://suika.fam.cx/regexp/doc/regexp-commit" hreflang="en" rel="self" type="application/atom+xml"></link><link href="http://suika.fam.cx/regexp/doc/readme" rel="related"></link><link href="http://suika.fam.cx/regexp/doc/readme#license" rel="license"></link><rights>This feed is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</rights><entry xml:id="entry-1231856137"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1231856137</id><title>2009-01-13 Wakaba</title><updated>2009-01-13T14:15:04Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/lib/Regexp/Visualize/ChangeLog	13 Jan 2009 14:12:50 -0000
+2009-01-13  Wakaba  &lt;wakaba@suika.fam.cx&gt;
+
+	* Simple.pod: New file.
+
+	* Makefile: New file.
+
+	* Simple.pm: Added license section.
+
+</content></entry><entry xml:id="entry-1228965327"><id>http://suika.fam.cx/regexp/doc/regexp-commit#entry-1228965327</id><title>2008-12-11 Wakaba</title><updated>2008-12-11T03:15:20Z</updated><author><name>Wakaba</name><email>wakaba@suika.fam.cx</email></author><content type="text">++ swe/doc/ChangeLog	11 Dec 2008 03:14:00 -0000
 2008-12-11  Wakaba  &lt;wakaba@suika.fam.cx&gt;
 
 	* ,htaccess: New file.
