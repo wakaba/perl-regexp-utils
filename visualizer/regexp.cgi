@@ -25,6 +25,13 @@ use UNIVERSAL::require;
 $class->use or die $@;
 my $parser = $class->new;
 
+my $footer = q[
+  <footer>
+  [<a href="input">Input</a>]
+  [<a href="../doc/readme">Source</a>]
+  </footer>
+];
+
 my @error;
 $parser->onerror (sub {
   my %args = @_;
@@ -58,9 +65,8 @@ if ($parser->errnum) {
   print "Content-Type: text/html; charset=utf-8\n\n";
   print q[<!DOCTYPE HTML><html lang=en>
 <title>Regular expression visualizer: ], $eregexp, q[</title>
-<link rel="stylesheet" href="/www/style/html/xhtml"/>
-</head>
-<body>
+<link rel="stylesheet" href="/www/style/html/xhtml">
+
 <h1>Regular expression visualizer</h1>
 
 <p>Input: <code>], $eregexp, q[</code></p>
@@ -69,6 +75,8 @@ if ($parser->errnum) {
 <ul>];
   print join '', @error;
   print q[</ul>];
+
+  print $footer;
 
   exit;
 }
@@ -103,5 +111,6 @@ while ($v->has_regexp_node) {
   print "</section>\n";
 }
 
-print q[</body></html>];
+print $footer;
 
+print q[</body></html>];

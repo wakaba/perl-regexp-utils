@@ -1,3 +1,7 @@
+2009-03-09  Wakaba  <wakaba@suika.fam.cx>
+
+	* input.html, regexp.cgi: Added links to the document.
+
 2008-12-09  Wakaba  <wakaba@suika.fam.cx>
 
 	* regexp.cgi: Output errors and warnings as HTML, not plain text
