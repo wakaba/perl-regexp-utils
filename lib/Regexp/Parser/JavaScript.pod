@@ -1,0 +1,132 @@
+=head1 NAME
+
+Regexp::Parser::JavaScript - A Regexp::Parser Subclass for JavaScript
+Regular Expressions
+
+=head1 SYNOPSIS
+
+  use Regexp::Parser::JavaScript;
+  
+  my $parser = Regexp::Parser::JavaScript->new;
+  
+  my @error;
+  
+  ## Prepare a callback function invoked whenever an error or warning
+  ## is raised by the parser.
+  $parser->onerror (sub {
+    my %args = @_;
+    
+    my $error_message = '';
+    if ($args{level} eq 'w') {
+      $error_message .= 'Warning: ';
+    } else {
+      $error_message .= 'Error: ';
+    }
+    
+    $error_message .= sprintf $args{type}, @{$args{args}};
+    
+    $error_message .= ' (';
+    $error_message .= substr ${$args{valueref}},
+        $args{pos_start}, $args{pos_end} - $args{pos_start};
+    $error_message .= ')';
+    
+    $error_message .= "\n";
+    
+    push @error, $error_message;
+  });
+  
+  ## Parse the regular expression given as a string.
+  ## Use |eval| to catch an exception that would be thrown if the
+  ## regular expression contains a fatal error.
+  eval {
+    $parser->parse ($regexp_as_string);
+  };
+  
+  if ($parser->errnum) {
+    ## @error contains at least one fatal error.
+    warn @error;
+  } else {
+    ## @error contains no fatal error.
+    warn @error;
+    
+    ## Now, $parser->root contains the root node of the parsed regular
+    ## expression tree.  See |perldoc Regexp::Parser| for more information.
+  }
+
+=head1 DESCRIPTION
+
+The C<Regexp::Parser::JavaScript> modules provides a subclass of the
+C<Regexp::Parser>, a regular expression parser module.  The
+C<Regexp::Parser::JavaScript> module provides an implementation of the
+parser for the regular expression language as defined by ECMA 376
+Third Edition (the ECMAScript specification), modified for
+compatibility with Web browser implementations.
+
+Apart from this additional function, this module provides the same
+interface as the one applied by the C<Regexp::Parser::Perl58> module.
+For more information, see L<Regexp::Parser::Perl58>.
+
+=head1 METHODS
+
+The C<Regexp::Parser::JavaScript> module provides same methods as
+C<Regexp::Parser::JavaScript>.  See L<Regexp::Parser::Perl58>.
+
+=head1 ERROR TYPES
+
+The C<Regexp::Parser::JavaScript> module reports same kinds of errors
+as the C<Regexp::Parser> module does to the callback function
+specified by the C<onerror> method, if any.  In addition, it might
+also have an additional error type: C<RPJSe_OCTESC>.
+
+=over 4
+
+=item RPJSe_OCTESC
+
+This error is reported when an octal escape sequence is used in the
+regular expression.  The octal escape sequence is I<not> part of the
+ECMAScript specification though it is supported by Web browsers for
+backward compatibility.
+
+=back
+
+=head1 DEPENDENCY
+
+This module requires Perl 5.10.0 or later.
+
+This module depends on C<Regexp::Parser> and C<Regexp::Parser::Perl58>
+modules.
+
+=head1 SEE ALSO
+
+The latest version of this module is available at
+L<http://suika.fam.cx/regexp/>.
+
+Regular expression visualizer
+L<http://suika.fam.cx/regexp/visualizer/input>.  It uses this module
+to parse Perl 5.8 regular expressions.
+
+L<Regexp::Parser> - A superclass, available from CPAN.
+
+L<Regexp::Parser::Perl58> - A superclass.
+
+=head1 DEVELOPMENT
+
+CVS log:
+L<http://suika.fam.cx/regexp/lib/Regexp/Parser/JavaScript.pm,cvslog>.
+
+Bug tracking system: L<http://manakai.g.hatena.ne.jp/task/7/>.
+
+=head1 AUTHOR
+
+Wakaba <w@suika.fam.cx>.
+
+=head1 LICENSE
+
+Copyright 2008-2009 Wakaba <w@suika.fam.cx>.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# $Date: 2009/03/08 14:30:51 $

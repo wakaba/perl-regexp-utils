@@ -1,0 +1,239 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Regexp::Parser::Perl58 - A Regexp::Parser Subclass for Perl 5.8
+Regular Expressions</title>
+<link rel="stylesheet" href="http://suika.fam.cx/www/style/html/pod.css" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:wakaba@suika.fam.cx" />
+</head>
+
+<body>
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#dependency">DEPENDENCY</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#development">DEVELOPMENT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#license">LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Regexp::Parser::Perl58 - A Regexp::Parser Subclass for Perl 5.8
+Regular Expressions</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Regexp::Parser::Perl58;
+  
+  my $parser = Regexp::Parser::Perl58-&gt;new;
+  
+  my @error;
+  
+  ## Prepare a callback function invoked whenever an error or warning
+  ## is raised by the parser.
+  $parser-&gt;onerror (sub {
+    my %args = @_;
+    
+    my $error_message = '';
+    if ($args{level} eq 'w') {
+      $error_message .= 'Warning: ';
+    } else {
+      $error_message .= 'Error: ';
+    }
+    
+    $error_message .= sprintf $args{type}, @{$args{args}};
+    
+    $error_message .= ' (';
+    $error_message .= substr ${$args{valueref}},
+        $args{pos_start}, $args{pos_end} - $args{pos_start};
+    $error_message .= ')';
+    
+    $error_message .= &quot;\n&quot;;
+    
+    push @error, $error_message;
+  });
+  
+  ## Parse the regular expression given as a string.
+  ## Use |eval| to catch an exception that would be thrown if the
+  ## regular expression contains a fatal error.
+  eval {
+    $parser-&gt;parse ($regexp_as_string);
+  };
+  
+  if ($parser-&gt;errnum) {
+    ## @error contains at least one fatal error.
+    warn @error;
+  } else {
+    ## @error contains no fatal error.
+    warn @error;
+    
+    ## Now, $parser-&gt;root contains the root node of the parsed regular
+    ## expression tree.  See |perldoc Regexp::Parser| for more information.
+  }</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <code>Regexp::Parser::Perl58</code> modules provides a subclass of the
+<code>Regexp::Parser</code>, a regular expression parser module.  The
+<code>Regexp::Parser::Perl58</code> module provides an implementation of the
+parser for the regular expression language as supported by Perl 5.8
+(with some minor restrictions).</p>
+<p>Although the <code>Regexp::Parser</code> itself provides the facility to parse
+Perl 5.8 regular expression, this module in addition enables the
+caller to specify a callback function that is invoked whenever the
+parser detects an error or wants to issue a warning message.</p>
+<p>Apart from this additional function, this module provides the same
+interface as the one applied by the <code>Regexp::Parser</code> module.  For
+more information, see <a href="../../Regexp/Parser.html">the Regexp::Parser manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>The <code>Regexp::Parser::Perl58</code> module provides same methods as
+<code>Regexp::Parser</code>.  In addition, the following method is defined:</p>
+<dl>
+<dt><strong><a name="onerror" class="item">[<em>$onerror</em> =] <em>$parser</em>-&gt;onerror ([<em>$onerror</em>]);</a></strong>
+
+<dd>
+<p>Gets or sets the callback function that is invoked when an error or
+warning is issued by the parser.</p>
+</dd>
+<dd>
+<p>On setting, i.e. an argument is specified to the method, the argument
+is set as the error handler function.  The argument must be a <code>CODE</code>
+reference or <code>undef</code>, which represents no-op.</p>
+</dd>
+<dd>
+<p>On getting, i.e, no argument is specified to the method, the method
+returns the current error handler function, if it has been set, or
+returns <code>undef</code>.</p>
+</dd>
+<dd>
+<p>The callback function, if specified, is invoked whenever the parser
+wants to report an error or warning to the application.  When invoked,
+the callback function is given a set of key-value pairs describing the
+error or warning.</p>
+</dd>
+<dl>
+<dt><strong><a name="level_m_w" class="item">level =&gt; &quot;m&quot; / &quot;w&quot;</a></strong>
+
+<dd>
+<p>The level of the error.  String <code>m</code> represents that it is a fatal
+error which prevents the regular expression from being effective.
+String <code>w</code> represents that it is a warning.</p>
+</dd>
+</li>
+<dt><strong><a name="code_integer" class="item">code =&gt; <em>integer</em></a></strong>
+
+<dd>
+<p>The code that identifies the type of the error.  See <a href="../../Regexp/Parser.html">the Regexp::Parser manpage</a>
+for the list of error codes.</p>
+</dd>
+</li>
+<dt><strong><a name="type_string" class="item">type =&gt; <em>string</em></a></strong>
+
+<dd>
+<p>The error type.  The error type is a string that describes the type of
+the error as a simple English text.  It can be used as the first
+argument of an <code>sprintf</code> call to obtain an error message, with the
+<code>args</code> argument, like:</p>
+</dd>
+<dd>
+<pre>
+  sprintf $args{type}, @{$args{args}}</pre>
+</dd>
+</li>
+<dt><strong><a name="args_array_ref" class="item">args =&gt; <em>ARRAY-ref</em></a></strong>
+
+<dd>
+<p>The optional values that describes the error or warning.  The number
+and contents of the values depends on the type of the error.</p>
+</dd>
+</li>
+<dt><strong><a name="valueref_scalar_ref_to_string" class="item">valueref =&gt; <em>SCALAR-ref-to-string</em></a></strong>
+
+<dd>
+<p>A reference to the string being parsed.</p>
+</dd>
+</li>
+<dt><strong><a name="pos_start_integer" class="item">pos_start =&gt; <em>integer</em></a></strong>
+
+<dd>
+<p>The index in the string referenced by <code>valueref</code>, from which the
+substring that causes the error or warning starts.</p>
+</dd>
+</li>
+<dt><strong><a name="pos_end_integer" class="item">pos_end =&gt; <em>integer</em></a></strong>
+
+<dd>
+<p>The index in the string referenced by <code>valueref</code>, at which the
+substring that causes the error or warning ends.</p>
+</dd>
+</li>
+</dl>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="dependency">DEPENDENCY</a></h1>
+<p>This module requires Perl 5.10.0 or later.</p>
+<p>This module depends on the <code>Regexp::Parser</code> module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>The latest version of this module is available at
+<a href="http://suika.fam.cx/regexp/">http://suika.fam.cx/regexp/</a>.</p>
+<p>Regular expression visualizer
+<a href="http://suika.fam.cx/regexp/visualizer/input">http://suika.fam.cx/regexp/visualizer/input</a>.  It uses this module
+to parse Perl 5.8 regular expressions.</p>
+<p><a href="../../Regexp/Parser.html">the Regexp::Parser manpage</a> - The superclass, available from CPAN.</p>
+<p><a href="../../Regexp/Parser/JavaScript.html">the Regexp::Parser::JavaScript manpage</a> - A parser for JavaScript regular
+expresssions.</p>
+<p>
+</p>
+<hr />
+<h1><a name="development">DEVELOPMENT</a></h1>
+<p>CVS log:
+<a href="http://suika.fam.cx/regexp/lib/Regexp/Parser/Perl58.pm,cvslog">http://suika.fam.cx/regexp/lib/Regexp/Parser/Perl58.pm,cvslog</a>.</p>
+<p>Bug tracking system: <a href="http://manakai.g.hatena.ne.jp/task/7/">http://manakai.g.hatena.ne.jp/task/7/</a>.</p>
+<p>Note that this module does not support Perl 5.10 regular expression
+extensions, as the module name suggests.  They are expected to be
+supported by another module.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Wakaba &lt;<a href="mailto:w@suika.fam.cx">w@suika.fam.cx</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="license">LICENSE</a></h1>
+<p>Copyright 2008-2009 Wakaba &lt;<a href="mailto:w@suika.fam.cx">w@suika.fam.cx</a>&gt;.</p>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

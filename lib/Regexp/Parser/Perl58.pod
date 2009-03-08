@@ -1,0 +1,187 @@
+=head1 NAME
+
+Regexp::Parser::Perl58 - A Regexp::Parser Subclass for Perl 5.8
+Regular Expressions
+
+=head1 SYNOPSIS
+
+  use Regexp::Parser::Perl58;
+  
+  my $parser = Regexp::Parser::Perl58->new;
+  
+  my @error;
+  
+  ## Prepare a callback function invoked whenever an error or warning
+  ## is raised by the parser.
+  $parser->onerror (sub {
+    my %args = @_;
+    
+    my $error_message = '';
+    if ($args{level} eq 'w') {
+      $error_message .= 'Warning: ';
+    } else {
+      $error_message .= 'Error: ';
+    }
+    
+    $error_message .= sprintf $args{type}, @{$args{args}};
+    
+    $error_message .= ' (';
+    $error_message .= substr ${$args{valueref}},
+        $args{pos_start}, $args{pos_end} - $args{pos_start};
+    $error_message .= ')';
+    
+    $error_message .= "\n";
+    
+    push @error, $error_message;
+  });
+  
+  ## Parse the regular expression given as a string.
+  ## Use |eval| to catch an exception that would be thrown if the
+  ## regular expression contains a fatal error.
+  eval {
+    $parser->parse ($regexp_as_string);
+  };
+  
+  if ($parser->errnum) {
+    ## @error contains at least one fatal error.
+    warn @error;
+  } else {
+    ## @error contains no fatal error.
+    warn @error;
+    
+    ## Now, $parser->root contains the root node of the parsed regular
+    ## expression tree.  See |perldoc Regexp::Parser| for more information.
+  }
+
+=head1 DESCRIPTION
+
+The C<Regexp::Parser::Perl58> modules provides a subclass of the
+C<Regexp::Parser>, a regular expression parser module.  The
+C<Regexp::Parser::Perl58> module provides an implementation of the
+parser for the regular expression language as supported by Perl 5.8
+(with some minor restrictions).
+
+Although the C<Regexp::Parser> itself provides the facility to parse
+Perl 5.8 regular expression, this module in addition enables the
+caller to specify a callback function that is invoked whenever the
+parser detects an error or wants to issue a warning message.
+
+Apart from this additional function, this module provides the same
+interface as the one applied by the C<Regexp::Parser> module.  For
+more information, see L<Regexp::Parser>.
+
+=head1 METHODS
+
+The C<Regexp::Parser::Perl58> module provides same methods as
+C<Regexp::Parser>.  In addition, the following method is defined:
+
+=over 4
+
+=item [I<$onerror> =] I<$parser>->onerror ([I<$onerror>]);
+
+Gets or sets the callback function that is invoked when an error or
+warning is issued by the parser.
+
+On setting, i.e. an argument is specified to the method, the argument
+is set as the error handler function.  The argument must be a C<CODE>
+reference or C<undef>, which represents no-op.
+
+On getting, i.e, no argument is specified to the method, the method
+returns the current error handler function, if it has been set, or
+returns C<undef>.
+
+The callback function, if specified, is invoked whenever the parser
+wants to report an error or warning to the application.  When invoked,
+the callback function is given a set of key-value pairs describing the
+error or warning.
+
+=over 4
+
+=item level => "m" / "w"
+
+The level of the error.  String C<m> represents that it is a fatal
+error which prevents the regular expression from being effective.
+String C<w> represents that it is a warning.
+
+=item code => I<integer>
+
+The code that identifies the type of the error.  See L<Regexp::Parser>
+for the list of error codes.
+
+=item type => I<string>
+
+The error type.  The error type is a string that describes the type of
+the error as a simple English text.  It can be used as the first
+argument of an C<sprintf> call to obtain an error message, with the
+C<args> argument, like:
+
+  sprintf $args{type}, @{$args{args}}
+
+=item args => I<ARRAY-ref>
+
+The optional values that describes the error or warning.  The number
+and contents of the values depends on the type of the error.
+
+=item valueref => I<SCALAR-ref-to-string>
+
+A reference to the string being parsed.
+
+=item pos_start => I<integer>
+
+The index in the string referenced by C<valueref>, from which the
+substring that causes the error or warning starts.
+
+=item pos_end => I<integer>
+
+The index in the string referenced by C<valueref>, at which the
+substring that causes the error or warning ends.
+
+=back
+
+=back
+
+=head1 DEPENDENCY
+
+This module requires Perl 5.10.0 or later.
+
+This module depends on the C<Regexp::Parser> module.
+
+=head1 SEE ALSO
+
+The latest version of this module is available at
+L<http://suika.fam.cx/regexp/>.
+
+Regular expression visualizer
+L<http://suika.fam.cx/regexp/visualizer/input>.  It uses this module
+to parse Perl 5.8 regular expressions.
+
+L<Regexp::Parser> - The superclass, available from CPAN.
+
+L<Regexp::Parser::JavaScript> - A parser for JavaScript regular
+expresssions.
+
+=head1 DEVELOPMENT
+
+CVS log:
+L<http://suika.fam.cx/regexp/lib/Regexp/Parser/Perl58.pm,cvslog>.
+
+Bug tracking system: L<http://manakai.g.hatena.ne.jp/task/7/>.
+
+Note that this module does not support Perl 5.10 regular expression
+extensions, as the module name suggests.  They are expected to be
+supported by another module.
+
+=head1 AUTHOR
+
+Wakaba <w@suika.fam.cx>.
+
+=head1 LICENSE
+
+Copyright 2008-2009 Wakaba <w@suika.fam.cx>.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# $Date: 2009/03/08 14:30:52 $

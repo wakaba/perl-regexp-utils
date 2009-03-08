@@ -1,0 +1,5 @@
+Redirect 301 /regexp/lib/Regexp/Parser.html http://search.cpan.org/perldoc/Regexp::Parser
+Redirect 301 /regexp/lib/Graph/Easy.html http://search.cpan.org/perldoc/Graph::Easy
+
+## License: Public Domain.
+## $Date: 2009/03/08 14:30:51 $

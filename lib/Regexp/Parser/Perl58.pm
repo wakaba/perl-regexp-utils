@@ -1,4 +1,5 @@
 package Regexp::Parser::Perl58;
+our $VERSION=do{my @r=(q$Revision: 1.5 $=~/\d+/g);sprintf "%d."."%02d" x $#r,@r};
 use strict;
 use warnings;
 
@@ -182,3 +183,16 @@ sub onerror {
 } # onerror
 
 1;
+
+__END__
+
+=head1 LICENSE
+
+Copyright 2008-2009 Wakaba <w@suika.fam.cx>.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# $Date: 2009/03/08 14:30:52 $
