@@ -2,10 +2,9 @@
 use strict;
 use warnings;
 use CGI::Carp qw(fatalsToBrowser);
-
-use FindBin;
-use lib qq[$FindBin::Bin/../lib];
-use lib q[/home/wakaba/work/manakai2/lib];
+use Path::Class;
+use lib file (__FILE__)->dir->parent->subdir ('lib')->stringify;
+use lib glob file (__FILE__)->dir->parent->subdir ('modules')->subdir ('*')->subdir ('lib');
 use Message::CGI::Util qw/htescape/;
 use Encode;
 
