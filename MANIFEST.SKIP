@@ -1,0 +1,32 @@
+# Version control files and dirs.
+\bRCS\b
+\bCVS\b
+^.git/
+/.git/
+,v$
+\.cvsignore$
+\.gitignore$
+\.gitmodules$
+
+## For HTTP
+#\.htaccess$
+
+# Makemaker generated files and dirs.
+^MANIFEST\.
+^Makefile$
+^blib/
+^MakeMaker-\d
+^pm_to_blib$
+
+# Temp, old and emacs backup files.
+~$
+\.old$
+^#.*#$
+^\.#
+\.BAK$
+\.bak$
+\.tdy$
+
+# Old releases
+^releases/
+\bRegexp-Visualize-.*\.tar\.gz\b
