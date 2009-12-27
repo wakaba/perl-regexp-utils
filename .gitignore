@@ -2,3 +2,5 @@
 .*~
 *.BAK
 .*.BAK
+*.bak
+Makefile.old
