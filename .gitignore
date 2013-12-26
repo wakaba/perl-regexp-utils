@@ -4,3 +4,11 @@
 .*.BAK
 *.bak
 Makefile.old
+/local/
+/perl
+/prove
+/plackup
+/Makefile.setupenv
+/cin
+/config/perl/libs.txt
+/deps/

@@ -4,18 +4,23 @@ use warnings;
 use CGI::Carp qw(fatalsToBrowser);
 use Path::Class;
 use lib file (__FILE__)->dir->parent->subdir ('lib')->stringify;
-use lib glob file (__FILE__)->dir->parent->subdir ('modules')->subdir ('*')->subdir ('lib');
-use Message::CGI::Util qw/htescape/;
 use Encode;
 
-use Message::CGI::HTTP;
-my $cgi = Message::CGI::HTTP->new;
+sub htescape ($) {
+  my $s = shift;
+  $s =~ s/&/&amp;/g;
+  $s =~ s/</&lt;/g;
+  $s =~ s/"/&quot;/g;
+  return $s;
+} # htescape
 
-my $regexp = decode 'utf-8', $cgi->get_parameter ('s') // '';
+my %qp = map { s/%([0-9A-Fa-f]{2})/pack 'C', hex $1/ge; $_ } map { split /=/, $_, 2 } split /&/, $ENV{QUERY_STRING} // '';
+
+my $regexp = decode 'utf-8', $qp{s} // '';
 $regexp = '(?:)' unless length $regexp;
 my $eregexp = htescape $regexp;
 
-my $lang = $cgi->get_parameter ('l') // 'perl58';
+my $lang = $qp{l} // 'perl58';
 my $class = $lang eq 'js'
     ? 'Regexp::Parser::JavaScript'
     : 'Regexp::Parser::Perl58';
