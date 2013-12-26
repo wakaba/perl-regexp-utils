@@ -25,8 +25,7 @@ my $class = $lang eq 'js'
     ? 'Regexp::Parser::JavaScript'
     : 'Regexp::Parser::Perl58';
 
-use UNIVERSAL::require;
-$class->use or die $@;
+eval qq{ require $class } or die $@;
 my $parser = $class->new;
 
 my $footer = q[
