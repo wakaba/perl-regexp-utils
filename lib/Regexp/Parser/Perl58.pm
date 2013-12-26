@@ -1,7 +1,7 @@
 package Regexp::Parser::Perl58;
-our $VERSION=do{my @r=(q$Revision: 1.5 $=~/\d+/g);sprintf "%d."."%02d" x $#r,@r};
 use strict;
 use warnings;
+our $VERSION = '6.0';
 
 BEGIN {
   $Regexp::Parser::EXPORT_TAGS{original}
@@ -146,7 +146,8 @@ sub nextchar {
 sub error {
   my ($self, $enum, $err, @args) = @_;
   if ($self->{onerror}) {
-    my $pos_diff = $error_pos_diff->{$enum} // 1;
+    my $pos_diff = $error_pos_diff->{$enum};
+    $pos_diff = 1 unless defined $pos_diff;
     my $level = $self->{enum_to_level}->{$enum} || 'm';
     $self->{onerror}->(code => $enum, type => $err,
                        valueref => &Rx,
@@ -160,7 +161,8 @@ sub error {
 sub warn {
   my ($self, $enum, $err, @args) = @_;
   if ($self->{onerror} and &SIZE_ONLY) {
-    my $pos_diff = $error_pos_diff->{$enum} // 1;
+    my $pos_diff = $error_pos_diff->{$enum};
+    $pos_diff = 1 unless defined $pos_diff;
     my $level = $self->{enum_to_level}->{$enum} || 'w';
     $self->{onerror}->(code => $enum, type => $err,
                        valueref => &Rx,
@@ -184,15 +186,11 @@ sub onerror {
 
 1;
 
-__END__
-
 =head1 LICENSE
 
-Copyright 2008-2009 Wakaba <w@suika.fam.cx>.
+Copyright 2008-2013 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
-
-# $Date: 2009/03/08 14:30:52 $

@@ -1,7 +1,7 @@
 package Regexp::Parser::JavaScript;
-our $VERSION=do{my @r=(q$Revision: 1.3 $=~/\d+/g);sprintf "%d."."%02d" x $#r,@r};
 use strict;
 use warnings;
+our $VERSION = '4.0';
 
 use Regexp::Parser::Perl58;
 use Regexp::Parser qw(:original :RPe);
@@ -27,7 +27,8 @@ sub init ($) {
 
   $self->del_handler (qw/
                          \a \e \A \C \G \N \P \p \X \Z \z
-                         (?# (?$ (?@ (?< (?> (?{ (?? (?p (?(
+                      /, '(?#', qw/
+                         (?$ (?@ (?< (?> (?{ (?? (?p (?(
                         /);
 
   $self->add_handler('\v' => sub {
@@ -238,15 +239,11 @@ sub init ($) {
 
 1;
 
-__END__
-
 =head1 LICENSE
 
-Copyright 2008-2009 Wakaba <w@suika.fam.cx>.
+Copyright 2008-2013 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
-
-# $Date: 2009/03/08 14:30:51 $
