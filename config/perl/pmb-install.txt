@@ -4,6 +4,7 @@ Graph::Easy::As_svg~0.27
 Graph::Easy::Edge::Cell~0.76
 HTML::Entities~3.69
 HTML::Tagset~3.20
+IO::Scalar~2.111
 Image::Info~1.41
 Path::Tiny~0.108
 Regexp::Parser~0.22
