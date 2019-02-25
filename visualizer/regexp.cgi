@@ -4,7 +4,7 @@ use warnings;
 use CGI::Carp qw(fatalsToBrowser);
 use Path::Class;
 use lib file (__FILE__)->dir->parent->subdir ('lib')->stringify;
-use Encode;
+use Web::Encoding;
 
 sub htescape ($) {
   my $s = shift;
@@ -16,7 +16,7 @@ sub htescape ($) {
 
 my %qp = map { s/%([0-9A-Fa-f]{2})/pack 'C', hex $1/ge; $_ } map { split /=/, $_, 2 } split /&/, $ENV{QUERY_STRING} // '';
 
-my $regexp = decode 'utf-8', $qp{s} // '';
+my $regexp = decode_web_utf8 $qp{s} // '';
 $regexp = '(?:)' unless length $regexp;
 my $eregexp = htescape $regexp;
 
