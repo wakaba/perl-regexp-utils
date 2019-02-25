@@ -1,2 +1,2 @@
 CGI::Carp
-Path::Class
+Path::Tiny

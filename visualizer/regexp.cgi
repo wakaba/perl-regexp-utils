@@ -2,8 +2,8 @@
 use strict;
 use warnings;
 use CGI::Carp qw(fatalsToBrowser);
-use Path::Class;
-use lib file (__FILE__)->dir->parent->subdir ('lib')->stringify;
+use Path::Tiny;
+use lib path (__FILE__)->parent->parent->child ('lib')->stringify;
 use Web::Encoding;
 
 sub htescape ($) {
