@@ -1,5 +1,6 @@
 CGI::Carp~4.40
 Carp~1.50
+Graph::Easy~0.76
 Graph::Easy::As_svg~0.27
 Graph::Easy::Edge::Cell~0.76
 HTML::Entities~3.69
