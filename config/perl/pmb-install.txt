@@ -1,12 +1,11 @@
-CGI::Carp~4.46
+CGI::Carp~4.47
 Carp~1.50
-Graph::Easy~0.76
 Graph::Easy::As_svg~0.27
 Graph::Easy::Edge::Cell~0.76
 HTML::Entities~3.69
 HTML::Tagset~3.20
 IO::Scalar~2.113
 Image::Info~1.42
-Path::Tiny~0.112
+Path::Tiny~0.114
 Regexp::Parser~0.23
-Scalar::Util~1.54
+Scalar::Util~1.55
