@@ -62,7 +62,7 @@ sub init ($) {
       my $family = $cc ? 'anyof_char' : 'exact';
 
       if ($n =~ /\d/) {
-        ## See <http://suika.fam.cx/%7Ewakaba/wiki/sw/n/%E5%85%AB%E9%80%B2%E3%82%A8%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%97>.
+        ## See <https://suika.suikawiki.org/%7Ewakaba/wiki/sw/n/%E5%85%AB%E9%80%B2%E3%82%A8%E3%82%B9%E3%82%B1%E3%83%BC%E3%83%97>.
 
         if ($n =~ /^[0-3]/ and ${&Rx} =~ m{ \G ([0-7]{1,2}) }xgc) {
           $n .= $1;
@@ -104,7 +104,7 @@ sub init ($) {
   # control character
   $self->add_handler('\c' => sub {
     my ($S, $cc) = @_;
-    ## See <http://suika.fam.cx/%7Ewakaba/wiki/sw/n/%5Cc>.
+    ## See <https://suika.suikawiki.org/%7Ewakaba/wiki/sw/n/%5Cc>.
     if (${&Rx} =~ m{ \G ([A-Za-z]) }xgc) {
       my $c = $1;
       $c =~ tr/a-z/A-Z/;

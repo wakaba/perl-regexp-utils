@@ -87,12 +87,12 @@ C<Regexp::Parser::Perl58> and C<Regexp::Parser::JavaScript>.
 =head1 SEE ALSO
 
 The latest version of this module is available at
-L<http://suika.fam.cx/regexp/>.
+L<https://suika.suikawiki.org/regexp/>.
 
 Regular expression visualizer
-L<http://suika.fam.cx/regexp/visualizer/input>.  This is a Web
+L<https://suika.suikawiki.org/regexp/visualizer/input>.  This is a Web
 interface for this module.  Its source code is available at
-L<http://suika.fam.cx/regexp/visualizer/regexp.cgi,cvslog>.
+L<https://suika.suikawiki.org/regexp/visualizer/regexp.cgi,cvslog>.
 
 L<Regexp::Parser::Perl58> - A subclass of C<Regexp::Parser> supporting
 Perl 5.8 regular expression syntax.
@@ -101,14 +101,14 @@ L<Regexp::Parser::JavaScript> - A subclass of C<Regexp::Parser>
 supporting JavaScript regular expression syntax.
 
 These two modules above are available at
-L<http://suika.fam.cx/regexp/>.
+L<https://suika.suikawiki.org/regexp/>.
 
 L<Graph::Easy>.  This module is available from CPAN.
 
 =head1 DEVELOPMENT
 
 CVS log:
-L<http://suika.fam.cx/regexp/lib/Regexp/Visualize/Simple.pm,cvslog>.
+L<https://suika.suikawiki.org/regexp/lib/Regexp/Visualize/Simple.pm,cvslog>.
 
 Bug tracking system: L<http://manakai.g.hatena.ne.jp/task/7/>.
 
@@ -118,15 +118,13 @@ Localization / customization support.
 
 =head1 AUTHOR
 
-Wakaba <w@suika.fam.cx>.
+Wakaba <wakaba@suikawiki.org>.
 
 =head1 LICENSE
 
-Copyright 2008-2009 Wakaba <w@suika.fam.cx>.
+Copyright 2008-2009 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
-
-# $Date: 2009/01/13 14:15:47 $

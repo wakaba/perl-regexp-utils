@@ -1,10 +1,10 @@
-POD2HTML = pod2html --css "http://suika.fam.cx/www/style/html/pod.css" \
-  --htmlroot "../.."
+P2H = ../../../local/p2h
 
-all: Perl58.html JavaScript.html
+all: build
 
-Perl58.html JavaScript.html: %.html: %.pod
-	$(POD2HTML) $< > $@
+build: Perl58.html JavaScript.html
+
+Perl58.html JavaScript.html: %.html: %.pod $(P2H)
+	$(P2H) "perl-regexp-utils" $< > $@
 
 ## License: Public Domain.
-## $Date: 2009/03/08 14:30:51 $

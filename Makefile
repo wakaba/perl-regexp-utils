@@ -3,6 +3,7 @@ all:
 WGET = wget
 CURL = curl
 GIT = git
+P2H = local/p2h
 
 updatenightly: local/bin/pmbp.pl
 	$(CURL) -s -S -L -f https://gist.githubusercontent.com/wakaba/34a71d3137a52abb562d/raw/gistfile1.txt | sh
@@ -13,7 +14,7 @@ updatenightly: local/bin/pmbp.pl
 
 ## ------ Setup ------
 
-deps: git-submodules pmbp-install
+deps: git-submodules pmbp-install $(P2H)
 
 git-submodules:
 	$(GIT) submodule update --init
@@ -31,6 +32,16 @@ pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl $(PMBP_OPTIONS) --install \
             --create-perl-command-shortcut @perl \
             --create-perl-command-shortcut @prove
+
+$(P2H): local
+	$(CURL) -sSfL https://raw.githubusercontent.com/manakai/manakai.github.io/master/p2h > $@
+	chmod u+x $@
+
+build: deps build-main
+
+build-main:
+	cd lib/Regexp/Parser && $(MAKE) build
+	cd lib/Regexp/Visualize && $(MAKE) build
 
 ## ------ Tests ------
 

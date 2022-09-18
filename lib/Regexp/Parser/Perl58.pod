@@ -149,10 +149,10 @@ This module depends on the C<Regexp::Parser> module.
 =head1 SEE ALSO
 
 The latest version of this module is available at
-L<http://suika.fam.cx/regexp/>.
+L<https://suika.suikawiki.org/regexp/>.
 
 Regular expression visualizer
-L<http://suika.fam.cx/regexp/visualizer/input>.  It uses this module
+L<https://suika.suikawiki.org/regexp/visualizer/input>.  It uses this module
 to parse Perl 5.8 regular expressions.
 
 L<Regexp::Parser> - The superclass, available from CPAN.
@@ -163,7 +163,7 @@ expresssions.
 =head1 DEVELOPMENT
 
 CVS log:
-L<http://suika.fam.cx/regexp/lib/Regexp/Parser/Perl58.pm,cvslog>.
+L<https://suika.suikawiki.org/regexp/lib/Regexp/Parser/Perl58.pm,cvslog>.
 
 Bug tracking system: L<http://manakai.g.hatena.ne.jp/task/7/>.
 
@@ -173,15 +173,13 @@ supported by another module.
 
 =head1 AUTHOR
 
-Wakaba <w@suika.fam.cx>.
+Wakaba <wakaba@suikawiki.org>.
 
 =head1 LICENSE
 
-Copyright 2008-2009 Wakaba <w@suika.fam.cx>.
+Copyright 2008-2009 Wakaba <wakaba@suikawiki.org>.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
-
-# $Date: 2009/03/08 14:30:52 $

@@ -1,52 +1,22 @@
-<?xml version="1.0" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>Regexp::Visualize::Simple - Regular expression visualization using Graph::Easy</title>
-<link rel="stylesheet" href="http://suika.fam.cx/www/style/html/pod.css" type="text/css" />
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:wakaba@suika.fam.cx" />
-</head>
 
-<body>
+      <!DOCTYPE HTML>
+      <html lang=en>
+        <meta charset=utf-8>
+        <title>perl-regexp-utils</title>
+        <link rel=stylesheet href="https://manakai.github.io/css/pod.css">
+        <meta name=viewport content="width=device-width">
+
+        <h1><a href="../" rel=top>perl-regexp-utils</a></h1>
+
+        
 
 
-<!-- INDEX BEGIN -->
-<div name="index">
-<p><a name="__index__"></a></p>
 
-<ul>
 
-	<li><a href="#name">NAME</a></li>
-	<li><a href="#synopsis">SYNOPSIS</a></li>
-	<li><a href="#description">DESCRIPTION</a></li>
-	<li><a href="#methods">METHODS</a></li>
-	<li><a href="#dependency">DEPENDENCY</a></li>
-	<li><a href="#see_also">SEE ALSO</a></li>
-	<li><a href="#development">DEVELOPMENT</a></li>
-	<ul>
 
-		<li><a href="#todo">TODO</a></li>
-	</ul>
+<hgroup><h1><code>Regexp::Visualize::Simple</code></h1><h2>Regular expression visualization using Graph::Easy</h2></hgroup><section id="SYNOPSIS"><h1>SYNOPSIS</h1>
 
-	<li><a href="#author">AUTHOR</a></li>
-	<li><a href="#license">LICENSE</a></li>
-</ul>
-
-<hr name="index" />
-</div>
-<!-- INDEX END -->
-
-<p>
-</p>
-<h1><a name="name">NAME</a></h1>
-<p>Regexp::Visualize::Simple - Regular expression visualization using Graph::Easy</p>
-<p>
-</p>
-<hr />
-<h1><a name="synopsis">SYNOPSIS</a></h1>
-<pre>
-  use Regexp::Visualize::Simple
+<pre><code>  use Regexp::Visualize::Simple
   
   $parser = ... Regexp::Parser object ...;
   
@@ -57,126 +27,104 @@
     my ($g, $index) = $v-&gt;next_graph;
     
     # $g is a Graph::Easy object
-    print &quot;$index:\n&quot;;
+    print "$index:\n";
     print $g-&gt;as_svg;
-  }</pre>
-<p>
-</p>
-<hr />
-<h1><a name="description">DESCRIPTION</a></h1>
-<p>The <code>Regexp::Visualize::Simple</code> generates a series of <code>Graph::Easy</code>
-objects, which as a whole represents a regular expression parsed by
-<code>Regexp::Parser</code>.  Generated graphs can be exported to arbitrary
-image format, such as PNG and SVG, supported by <code>Graph::Easy</code>.  As an
-input any regular expression dialect supported by <code>Regexp::Parser</code> or
-its subclasses can be used.</p>
-<p>It is sometimes impossible or undesired to represents a regular
-expression as one complete graph.  For example, if a regular
-expression containing <code>(?!...)</code> segment were represented as a graph,
-it would be difficult to understand.  Therefore, the result
-visualization might sometimes be split into multiple graphs.  This is
-why this module defines iterator methods <a href="#has_regexp_node"><code>has_regexp_node</code></a> and
-<a href="#next_graph"><code>next_graph</code></a>.</p>
-<p>
-</p>
-<hr />
-<h1><a name="methods">METHODS</a></h1>
+  }</code></pre>
+
+</section><section id="DESCRIPTION"><h1>DESCRIPTION</h1>
+
+<p>The <code>Regexp::Visualize::Simple</code> generates a series of <code>Graph::Easy</code> objects, which as a whole represents a regular expression parsed by <code>Regexp::Parser</code>. Generated graphs can be exported to arbitrary image format, such as PNG and SVG, supported by <code>Graph::Easy</code>. As an input any regular expression dialect supported by <code>Regexp::Parser</code> or its subclasses can be used.</p>
+
+<p>It is sometimes impossible or undesired to represents a regular expression as one complete graph. For example, if a regular expression containing <code>(?!...)</code> segment were represented as a graph, it would be difficult to understand. Therefore, the result visualization might sometimes be split into multiple graphs. This is why this module defines iterator methods <code>has_regexp_node</code> and <code>next_graph</code>.</p>
+
+</section><section id="METHODS"><h1>METHODS</h1>
+
 <dl>
-<dt><strong><a name="new" class="item"><em>$v</em> = Regexp::Visualize::Simple-&gt;new;</a></strong>
+<dt id="$v_=_Regexp::Visualize::Simple->new;"><code><i>$v</i> = Regexp::Visualize::Simple-&gt;new;</code></dt>
 
 <dd>
 <p>Creates a new instance of the regular expression visualizer.</p>
-</dd>
-</li>
-<dt><strong><a name="push_regexp_node" class="item"><em>$v</em>-&gt;push_regexp_node (<em>$node</em>);</a></strong>
+
+</dd><dt id="$v->push_regexp_node_($node);"><code><i>$v</i>-&gt;push_regexp_node (<i>$node</i>);</code></dt>
 
 <dd>
-<p>Push a regular expression node that represents a subgraph to be
-visualized.</p>
-</dd>
-</li>
-<dt><strong><a name="shift_regexp_node" class="item"><em>$node</em> = <em>$v</em>-&gt;shift_regexp_node ();</a></strong>
+<p>Push a regular expression node that represents a subgraph to be visualized.</p>
+
+</dd><dt id="$node_=_$v->shift_regexp_node_();"><code><i>$node</i> = <i>$v</i>-&gt;shift_regexp_node ();</code></dt>
 
 <dd>
-<p>Shifts a regular expression node from the queue hold by the visualizer
-object, if any, or returns <code>undef</code>.</p>
-</dd>
-</li>
-<dt><strong><a name="has_regexp_node" class="item"><em>$boolean</em> = <em>$v</em>-&gt;has_regexp_node ();</a></strong>
+<p>Shifts a regular expression node from the queue hold by the visualizer object, if any, or returns <code>undef</code>.</p>
+
+</dd><dt id="$boolean_=_$v->has_regexp_node_();"><code><i>$boolean</i> = <i>$v</i>-&gt;has_regexp_node ();</code></dt>
 
 <dd>
-<p>Returns whether the visualizer object contains one or more nodes in
-the queue of regular expression nodes to be graphized.</p>
-</dd>
-</li>
-<dt><strong><a name="next_graph" class="item">(<em>$g</em>, <em>$index</em>) = <em>$v</em>-&gt;next_graph ();</a></strong>
+<p>Returns whether the visualizer object contains one or more nodes in the queue of regular expression nodes to be graphized.</p>
+
+</dd><dt id="($g,_$index)_=_$v->next_graph_();"><code>(<i>$g</i>, <i>$index</i>) = <i>$v</i>-&gt;next_graph ();</code></dt>
 
 <dd>
-<p>Generates a graph from the first node in the queue o the regular
-expression node hold by the visualizer object.</p>
+<p>Generates a graph from the first node in the queue o the regular expression node hold by the visualizer object.</p>
+
+<p>If there is no node to be graphized in the queue, then a list of two <code>undef</code> values is returned.</p>
+
+<p>Otherwise, a list of the <code>Graph::Easy</code> object generated from the regular expression node and the index number of the graph is returned. The first graph generated by the visualizer object has the index of zero (<code>0</code>), and the next graph has one (<code>1</code>).</p>
 </dd>
-<dd>
-<p>If there is no node to be graphized in the queue, then a list of two
-<code>undef</code> values is returned.</p>
-</dd>
-<dd>
-<p>Otherwise, a list of the <code>Graph::Easy</code> object generated from the
-regular expression node and the index number of the graph is returned.
-The first graph generated by the visualizer object has the index of
-zero (<code>0</code>), and the next graph has one (<code>1</code>).</p>
-</dd>
-</li>
 </dl>
-<p>
-</p>
-<hr />
-<h1><a name="dependency">DEPENDENCY</a></h1>
+
+</section><section id="DEPENDENCY"><h1>DEPENDENCY</h1>
+
 <p>This module requires Perl 5.10.0 or later.</p>
+
 <p>This module depends on the <code>Graph::Easy</code> module.</p>
-<p>This module assumes the input regular expression nodes implementing
-<code>Regexp::Parser</code>-compatible interface.  Such modules include
-<code>Regexp::Parser::Perl58</code> and <code>Regexp::Parser::JavaScript</code>.</p>
-<p>
-</p>
-<hr />
-<h1><a name="see_also">SEE ALSO</a></h1>
-<p>The latest version of this module is available at
-<a href="http://suika.fam.cx/regexp/">http://suika.fam.cx/regexp/</a>.</p>
-<p>Regular expression visualizer
-<a href="http://suika.fam.cx/regexp/visualizer/input">http://suika.fam.cx/regexp/visualizer/input</a>.  This is a Web
-interface for this module.  Its source code is available at
-<a href="http://suika.fam.cx/regexp/visualizer/regexp.cgi,cvslog">http://suika.fam.cx/regexp/visualizer/regexp.cgi,cvslog</a>.</p>
-<p><a href="../../Regexp/Parser/Perl58.html">the Regexp::Parser::Perl58 manpage</a> - A subclass of <code>Regexp::Parser</code> supporting
-Perl 5.8 regular expression syntax.</p>
-<p><a href="../../Regexp/Parser/JavaScript.html">the Regexp::Parser::JavaScript manpage</a> - A subclass of <code>Regexp::Parser</code>
-supporting JavaScript regular expression syntax.</p>
-<p>These two modules above are available at
-<a href="http://suika.fam.cx/regexp/">http://suika.fam.cx/regexp/</a>.</p>
-<p><a href="../../Graph/Easy.html">the Graph::Easy manpage</a>.  This module is available from CPAN.</p>
-<p>
-</p>
-<hr />
-<h1><a name="development">DEVELOPMENT</a></h1>
-<p>CVS log:
-<a href="http://suika.fam.cx/regexp/lib/Regexp/Visualize/Simple.pm,cvslog">http://suika.fam.cx/regexp/lib/Regexp/Visualize/Simple.pm,cvslog</a>.</p>
-<p>Bug tracking system: <a href="http://manakai.g.hatena.ne.jp/task/7/">http://manakai.g.hatena.ne.jp/task/7/</a>.</p>
-<p>
-</p>
-<h2><a name="todo">TODO</a></h2>
+
+<p>This module assumes the input regular expression nodes implementing <code>Regexp::Parser</code>-compatible interface. Such modules include <code>Regexp::Parser::Perl58</code> and <code>Regexp::Parser::JavaScript</code>.</p>
+
+</section><section id="SEE_ALSO"><h1>SEE ALSO</h1>
+
+<p>The latest version of this module is available at <a href="https://suika.suikawiki.org/regexp/" class="podlinkurl">https://suika.suikawiki.org/regexp/</a>.</p>
+
+<p>Regular expression visualizer <a href="https://suika.suikawiki.org/regexp/visualizer/input" class="podlinkurl">https://suika.suikawiki.org/regexp/visualizer/input</a>. This is a Web interface for this module. Its source code is available at <a href="https://suika.suikawiki.org/regexp/visualizer/regexp.cgi,cvslog" class="podlinkurl">https://suika.suikawiki.org/regexp/visualizer/regexp.cgi,cvslog</a>.</p>
+
+<p><a href="../Regexp/Parser/Perl58" class="podlinkpod">Regexp::Parser::Perl58</a> - A subclass of <code>Regexp::Parser</code> supporting Perl 5.8 regular expression syntax.</p>
+
+<p><a href="../Regexp/Parser/JavaScript" class="podlinkpod">Regexp::Parser::JavaScript</a> - A subclass of <code>Regexp::Parser</code> supporting JavaScript regular expression syntax.</p>
+
+<p>These two modules above are available at <a href="https://suika.suikawiki.org/regexp/" class="podlinkurl">https://suika.suikawiki.org/regexp/</a>.</p>
+
+<p><a href="../Graph/Easy" class="podlinkpod">Graph::Easy</a>. This module is available from CPAN.</p>
+
+</section><section id="DEVELOPMENT"><h1>DEVELOPMENT</h1>
+
+<p>CVS log: <a href="https://suika.suikawiki.org/regexp/lib/Regexp/Visualize/Simple.pm,cvslog" class="podlinkurl">https://suika.suikawiki.org/regexp/lib/Regexp/Visualize/Simple.pm,cvslog</a>.</p>
+
+<p>Bug tracking system: <a href="http://manakai.g.hatena.ne.jp/task/7/" class="podlinkurl">http://manakai.g.hatena.ne.jp/task/7/</a>.</p>
+
+<section id="TODO"><h1>TODO</h1>
+
 <p>Localization / customization support.</p>
-<p>
-</p>
-<hr />
-<h1><a name="author">AUTHOR</a></h1>
-<p>Wakaba &lt;<a href="mailto:w@suika.fam.cx">w@suika.fam.cx</a>&gt;.</p>
-<p>
-</p>
-<hr />
-<h1><a name="license">LICENSE</a></h1>
-<p>Copyright 2008-2009 Wakaba &lt;<a href="mailto:w@suika.fam.cx">w@suika.fam.cx</a>&gt;.</p>
-<p>This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.</p>
 
-</body>
+</section></section><section id="AUTHOR"><h1>AUTHOR</h1>
 
-</html>
+<p>Wakaba &lt;wakaba@suikawiki.org&gt;.</p>
+
+</section><section id="LICENSE"><h1>LICENSE</h1>
+
+<p>Copyright 2008-2009 Wakaba &lt;wakaba@suikawiki.org&gt;.</p>
+
+<p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+
+
+
+</section>
+
+        <sw-ads normal></sw-ads>
+        <script src="https://manakai.github.io/js/global.js" async></script>
+
+        <footer>
+          <ul>
+          <li><a href="../" rel=top>Top</a>
+          </ul>
+        </footer>
+        <sw-ads-notes></sw-ads-notes>
+    
